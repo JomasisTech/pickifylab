@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | Pickify Lab</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230056FD%22/><text x=%2250%22 y=%2266%22 font-size=%2255%22 fill=%22white%22 text-anchor=%22middle%22 font-family=%22Arial%22>P</text></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body class="admin-body">
+
+  <!-- ============================= SETUP (first run) ============================= -->
+  <section class="auth-screen" id="setup-screen">
+    <div class="auth-card">
+      <a href="index.html" class="brand">
+        <span class="brand__mark"><i class="fa-solid fa-leaf" aria-hidden="true"></i></span>
+        <span class="brand__name">Pickify<span>Lab</span></span>
+      </a>
+      <h1>Set up your admin</h1>
+      <p class="auth-sub">This is the first time opening the dashboard on this device.</p>
+
+      <div class="auth-notice">
+        <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+        <span>This login is a local, soft gate only — it isn't real security. Credentials are stored in this browser. Don't use it to protect sensitive information, and don't rely on it if this device is shared.</span>
+      </div>
+
+      <form id="setup-form">
+        <div class="form-field">
+          <label for="setup-username">Username</label>
+          <input type="text" id="setup-username" required autocomplete="username" />
+        </div>
+        <div class="form-field">
+          <label for="setup-password">Password</label>
+          <input type="password" id="setup-password" required minlength="4" autocomplete="new-password" />
+        </div>
+        <div class="form-field">
+          <label for="setup-password-confirm">Confirm password</label>
+          <input type="password" id="setup-password-confirm" required minlength="4" autocomplete="new-password" />
+        </div>
+        <button class="btn btn--primary btn--block btn--large" type="submit">Create admin account</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============================= LOGIN ============================= -->
+  <section class="auth-screen is-hidden" id="login-screen">
+    <div class="auth-card">
+      <a href="index.html" class="brand">
+        <span class="brand__mark"><i class="fa-solid fa-leaf" aria-hidden="true"></i></span>
+        <span class="brand__name">Pickify<span>Lab</span></span>
+      </a>
+      <h1>Admin login</h1>
+      <p class="auth-sub">Sign in to manage products, categories, and settings.</p>
+
+      <form id="login-form">
+        <div class="form-field">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" required autocomplete="username" />
+        </div>
+        <div class="form-field">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" required autocomplete="current-password" />
+        </div>
+        <p id="login-error"></p>
+        <button class="btn btn--primary btn--block btn--large" type="submit">Log in</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============================= DASHBOARD SHELL ============================= -->
+  <div class="admin-shell is-hidden" id="admin-dashboard">
+    <aside class="admin-sidebar">
+      <a href="index.html" class="brand">
+        <span class="brand__mark"><i class="fa-solid fa-leaf" aria-hidden="true"></i></span>
+        <span class="brand__name">Pickify<span>Lab</span></span>
+      </a>
+      <nav class="admin-nav">
+        <a href="#" data-admin-nav="dashboard" class="is-active"><i class="fa-solid fa-gauge" aria-hidden="true"></i> Dashboard</a>
+        <a href="#" data-admin-nav="products"><i class="fa-solid fa-flask" aria-hidden="true"></i> Products</a>
+        <a href="#" data-admin-nav="categories"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Categories</a>
+        <a href="#" data-admin-nav="settings"><i class="fa-solid fa-gear" aria-hidden="true"></i> Settings</a>
+      </nav>
+      <div class="admin-sidebar-footer">
+        <a href="index.html" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> View live site</a>
+        <button type="button" data-logout><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Log out</button>
+      </div>
+    </aside>
+
+    <div class="admin-main">
+      <header class="admin-topbar">
+        <div style="display:flex; align-items:center; gap:14px;">
+          <button type="button" class="icon-btn" id="admin-menu-toggle" aria-label="Toggle menu" style="display:none;"><i class="fa-solid fa-bars"></i></button>
+          <h1 id="admin-view-title">Dashboard</h1>
+        </div>
+        <span id="preview-status">No local changes</span>
+      </header>
+
+      <div class="admin-content">
+
+        <!-- ============================= DASHBOARD VIEW ============================= -->
+        <section data-admin-view="dashboard">
+          <div class="stat-cards">
+            <div class="stat-card"><strong id="stat-total">0</strong><span>Total products</span></div>
+            <div class="stat-card"><strong id="stat-featured">0</strong><span>Featured</span></div>
+            <div class="stat-card"><strong id="stat-trending">0</strong><span>Trending</span></div>
+            <div class="stat-card"><strong id="stat-bestseller">0</strong><span>Best sellers</span></div>
+            <div class="stat-card"><strong id="stat-recent">0</strong><span>Recently added</span></div>
+          </div>
+
+          <div class="dashboard-panel">
+            <h2>Products by category</h2>
+            <ul id="dashboard-category-breakdown"></ul>
+          </div>
+        </section>
+
+        <!-- ============================= PRODUCTS VIEW ============================= -->
+        <section data-admin-view="products" class="is-hidden">
+          <div class="admin-toolbar">
+            <div class="admin-toolbar__group">
+              <div class="admin-search">
+                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                <input type="text" id="products-search" placeholder="Search products or brands…" />
+              </div>
+              <select class="admin-select" id="products-sort" aria-label="Sort products">
+                <option value="order:asc">Display order</option>
+                <option value="name:asc">Name (A–Z)</option>
+                <option value="name:desc">Name (Z–A)</option>
+                <option value="brand:asc">Brand (A–Z)</option>
+                <option value="rating:desc">Rating (high–low)</option>
+                <option value="rating:asc">Rating (low–high)</option>
+              </select>
+            </div>
+            <div class="admin-toolbar__group">
+              <label class="btn btn--ghost btn--small file-btn">
+                <i class="fa-solid fa-file-import" aria-hidden="true"></i> Import products.js
+                <input type="file" id="import-products-input" accept=".js" />
+              </label>
+              <button class="btn btn--ghost btn--small" type="button" id="discard-products-btn">Discard local changes</button>
+              <button class="btn btn--ghost btn--small" type="button" id="export-products-btn"><i class="fa-solid fa-file-export" aria-hidden="true"></i> Export products.js</button>
+              <button class="btn btn--primary btn--small" type="button" id="add-product-btn"><i class="fa-solid fa-plus" aria-hidden="true"></i> Add product</button>
+            </div>
+          </div>
+
+          <p class="table-sub" id="products-count-label" style="margin-bottom:12px;"></p>
+
+          <div class="table-card">
+            <div class="table-scroll">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th></th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Rating</th>
+                    <th>Badge</th>
+                    <th>Flags</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="products-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================= CATEGORIES VIEW ============================= -->
+        <section data-admin-view="categories" class="is-hidden">
+          <p class="categories-note">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            Categories are structural — each one is tied to a dedicated icon and color swatch in the site's design system. This view shows how your catalogue breaks down; to add a brand-new category (not just assign products to an existing one), a small code change is needed.
+          </p>
+          <div class="category-overview-grid" id="categories-overview"></div>
+        </section>
+
+        <!-- ============================= SETTINGS VIEW ============================= -->
+        <section data-admin-view="settings" class="is-hidden">
+          <div class="settings-card">
+            <h2>Site settings</h2>
+            <p class="settings-sub">These changes preview instantly in this browser. Export and redeploy <code>settings.js</code> to publish them for everyone.</p>
+
+            <form id="settings-form">
+              <div class="form-field">
+                <label for="setting-email">Business email</label>
+                <input type="email" id="setting-email" />
+              </div>
+              <div class="form-field">
+                <label for="setting-instagram">Instagram URL</label>
+                <input type="url" id="setting-instagram" />
+              </div>
+              <div class="form-field">
+                <label for="setting-tiktok">TikTok URL</label>
+                <input type="url" id="setting-tiktok" />
+              </div>
+              <div class="form-field">
+                <label for="setting-youtube">YouTube URL</label>
+                <input type="url" id="setting-youtube" />
+              </div>
+              <div class="form-field">
+                <label for="setting-facebook">Facebook URL</label>
+                <input type="url" id="setting-facebook" />
+              </div>
+              <div class="form-field">
+                <label for="setting-x">X (Twitter) URL</label>
+                <input type="url" id="setting-x" />
+              </div>
+              <div class="form-field">
+                <label for="setting-disclosure">Affiliate disclosure text</label>
+                <textarea id="setting-disclosure" rows="4"></textarea>
+                <small class="hint">The "Affiliate disclosure:" label is added automatically — just write the sentence that follows it.</small>
+              </div>
+
+              <div class="settings-actions">
+                <button class="btn btn--primary" type="submit">Save settings</button>
+                <button class="btn btn--ghost" type="button" id="export-settings-btn"><i class="fa-solid fa-file-export" aria-hidden="true"></i> Export settings.js</button>
+                <button class="btn btn--ghost" type="button" id="discard-settings-btn">Discard local changes</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================= PRODUCT FORM MODAL ============================= -->
+  <div class="modal-overlay" id="product-form-overlay">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h2 id="product-form-title">Add product</h2>
+        <button class="icon-btn" type="button" data-close-product-form aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="product-form">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-field span-2">
+              <label for="field-name">Product name *</label>
+              <input type="text" id="field-name" required />
+              <span class="form-error"></span>
+            </div>
+
+            <div class="form-field">
+              <label for="field-brand">Brand *</label>
+              <input type="text" id="field-brand" required />
+              <span class="form-error"></span>
+            </div>
+            <div class="form-field">
+              <label for="field-category">Category *</label>
+              <select id="field-category"></select>
+            </div>
+
+            <div class="form-field span-2">
+              <label for="field-amazon-link">Amazon affiliate link *</label>
+              <input type="url" id="field-amazon-link" placeholder="https://amazon.com/…" required />
+              <span class="form-error"></span>
+            </div>
+
+            <div class="form-field">
+              <label for="field-rating">Rating (0–5) *</label>
+              <input type="number" id="field-rating" min="0" max="5" step="0.1" required />
+              <span class="form-error"></span>
+            </div>
+            <div class="form-field">
+              <label for="field-review-count">Number of reviews</label>
+              <input type="number" id="field-review-count" min="0" step="1" />
+            </div>
+
+            <div class="form-field">
+              <label for="field-badge">Badge</label>
+              <select id="field-badge"></select>
+            </div>
+            <div class="form-field">
+              <label for="field-price">Price tier</label>
+              <select id="field-price"></select>
+            </div>
+
+            <div class="form-field">
+              <label for="field-match-score">Match score (0–100)</label>
+              <input type="number" id="field-match-score" min="0" max="100" step="1" />
+            </div>
+            <div></div>
+
+            <div class="form-field span-2">
+              <label for="field-short-review">Short description *</label>
+              <textarea id="field-short-review" rows="2" required></textarea>
+              <small class="hint">Shown on the product card — keep it to one line.</small>
+              <span class="form-error"></span>
+            </div>
+
+            <div class="form-field span-2">
+              <label>Product image</label>
+              <div class="image-field">
+                <div class="image-preview" id="image-preview"><i class="fa-solid fa-image" aria-hidden="true"></i><span>No image — icon placeholder will be used</span></div>
+                <div class="image-field-controls">
+                  <input type="url" id="field-image-url" placeholder="Paste an image URL…" />
+                  <label class="btn btn--ghost btn--small file-btn" style="align-self:flex-start;">
+                    <i class="fa-solid fa-upload" aria-hidden="true"></i> Upload from device
+                    <input type="file" id="field-image-upload" accept="image/*" />
+                  </label>
+                  <small class="hint">Uploaded images are embedded directly in the exported file — keep them under 1.5MB. A hosted image URL is lighter-weight.</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-field span-2">
+              <label>Homepage placement</label>
+              <div class="checkbox-row"><input type="checkbox" id="field-featured" /> <label for="field-featured" style="margin:0;">Featured</label></div>
+              <div class="checkbox-row"><input type="checkbox" id="field-trending" /> <label for="field-trending" style="margin:0;">Trending</label></div>
+              <div class="checkbox-row"><input type="checkbox" id="field-bestseller" /> <label for="field-bestseller" style="margin:0;">Best Seller</label></div>
+              <div class="checkbox-row"><input type="checkbox" id="field-recent" /> <label for="field-recent" style="margin:0;">Recently Added</label></div>
+            </div>
+
+            <div class="form-grid span-2" style="grid-template-columns:1fr; gap:0;">
+              <details class="form-advanced">
+                <summary>Full review content (optional, shown on the product page)</summary>
+                <div class="form-advanced__body">
+                  <div class="form-field">
+                    <label for="field-overview">Overview</label>
+                    <textarea id="field-overview" rows="2"></textarea>
+                  </div>
+                  <div class="form-field">
+                    <label for="field-review">My review</label>
+                    <textarea id="field-review" rows="3"></textarea>
+                  </div>
+                  <div class="form-field">
+                    <label for="field-pros">Pros <small class="hint">(one per line)</small></label>
+                    <textarea id="field-pros" rows="3"></textarea>
+                  </div>
+                  <div class="form-field">
+                    <label for="field-cons">Cons <small class="hint">(one per line)</small></label>
+                    <textarea id="field-cons" rows="3"></textarea>
+                  </div>
+                  <div class="form-field">
+                    <label for="field-ingredients">Key ingredients <small class="hint">(one per line)</small></label>
+                    <textarea id="field-ingredients" rows="2"></textarea>
+                  </div>
+                  <div class="form-field">
+                    <label for="field-how-to-use">How to use</label>
+                    <textarea id="field-how-to-use" rows="2"></textarea>
+                  </div>
+                  <div class="form-field">
+                    <label for="field-who-for">Who should buy</label>
+                    <textarea id="field-who-for" rows="2"></textarea>
+                  </div>
+                  <div class="form-field">
+                    <label for="field-who-avoid">Who should avoid</label>
+                    <textarea id="field-who-avoid" rows="2"></textarea>
+                  </div>
+                  <div class="form-field">
+                    <label for="field-skin-type">Skin type <small class="hint">(one per line)</small></label>
+                    <textarea id="field-skin-type" rows="2"></textarea>
+                  </div>
+                  <div class="form-field">
+                    <label for="field-skin-concern">Skin concern <small class="hint">(one per line)</small></label>
+                    <textarea id="field-skin-concern" rows="2"></textarea>
+                  </div>
+                  <div class="form-field">
+                    <label for="field-keywords">Search keywords <small class="hint">(one per line)</small></label>
+                    <textarea id="field-keywords" rows="2"></textarea>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn--ghost" type="button" data-close-product-form>Cancel</button>
+          <button class="btn btn--primary" type="submit">Save product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================= CONFIRM DIALOG ============================= -->
+  <div class="confirm-overlay" id="confirm-overlay">
+    <div class="confirm-panel">
+      <h3 id="confirm-title">Are you sure?</h3>
+      <p id="confirm-message"></p>
+      <div class="confirm-actions">
+        <button class="btn btn--ghost btn--small" type="button" id="confirm-cancel">Cancel</button>
+        <button class="btn btn--primary btn--small" type="button" id="confirm-ok">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================= TOASTS ============================= -->
+  <div class="toast-stack" id="toast-stack"></div>
+
+  <script src="js/products.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

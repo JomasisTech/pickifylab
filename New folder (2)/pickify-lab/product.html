@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Review | Pickify Lab</title>
+  <meta name="description" content="Independent, research-based skincare product review from Pickify Lab." />
+  <link rel="canonical" href="https://pickifylab.com/product.html" />
+
+  <meta property="og:type" content="product" />
+  <meta property="og:site_name" content="Pickify Lab" />
+  <meta property="og:title" content="Product Review | Pickify Lab" />
+  <meta property="og:image" content="https://pickifylab.com/images/og-cover.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%230056FD%22/><text x=%2250%22 y=%2266%22 font-size=%2255%22 fill=%22white%22 text-anchor=%22middle%22 font-family=%22Arial%22>P</text></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <a class="visually-hidden" href="#main-content">Skip to main content</a>
+
+  <header class="site-header" data-site-header>
+    <div class="container nav">
+      <a href="index.html" class="brand">
+        <span class="brand__mark"><i class="fa-solid fa-leaf" aria-hidden="true"></i></span>
+        <span class="brand__name">Pickify<span>Lab</span></span>
+      </a>
+      <nav class="nav-menu" data-nav-menu aria-label="Primary">
+        <a href="index.html" data-page="index.html">Home</a>
+        <a href="categories.html" data-page="categories.html">Categories</a>
+        <a href="categories.html?sort=latest" data-page="categories.html">Latest Reviews</a>
+        <a href="about.html" data-page="about.html">About</a>
+        <a href="contact.html" data-page="contact.html">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" type="button" data-search-open aria-label="Search products"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+        <button class="icon-btn" type="button" data-theme-toggle aria-label="Toggle dark mode"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="search-overlay" data-search-overlay>
+    <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search products">
+      <div class="search-panel__top">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <input type="search" placeholder="Search by product, brand, or concern…" aria-label="Search products" data-search-input />
+        <button class="search-panel__close" type="button" data-search-close aria-label="Close search"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+      </div>
+      <div data-search-results><p class="search-hint">Start typing a product or brand — like "Cera" or "La Roche".</p></div>
+    </div>
+  </div>
+
+  <main id="main-content" data-product-page>
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb" style="padding-top:24px;">
+        <a href="index.html">Home</a>
+        <i class="fa-solid fa-chevron-right" aria-hidden="true" style="font-size:0.65em"></i>
+        <a href="categories.html" id="breadcrumb-category">Category</a>
+        <i class="fa-solid fa-chevron-right" aria-hidden="true" style="font-size:0.65em"></i>
+        <span id="breadcrumb-name">Product</span>
+      </nav>
+    </div>
+
+    <article class="product-detail">
+      <div class="container product-detail__layout">
+
+        <div class="product-detail__media">
+          <div id="product-media"></div>
+        </div>
+
+        <div class="product-detail__info">
+          <div class="product-detail__header">
+            <div>
+              <p class="product-detail__brand" id="product-brand"></p>
+              <h1 class="product-detail__name" id="product-name"></h1>
+            </div>
+            <div id="product-match-ring"></div>
+          </div>
+
+          <div id="product-badges"></div>
+
+          <div class="product-detail__rating">
+            <span class="stars" id="product-stars" aria-hidden="true"></span>
+            <span class="rating-value" id="product-rating-value"></span>
+            <span class="rating-count" id="product-review-count"></span>
+          </div>
+
+          <p id="product-overview" style="color:var(--color-text-muted); max-width:60ch; margin-bottom:6px;"></p>
+
+          <dl class="detail-facts">
+            <div><dt>Category</dt><dd id="product-category-chip"></dd></div>
+            <div><dt>Price</dt><dd id="product-price"></dd></div>
+            <div><dt>Skin Type</dt><dd id="product-skin-type"></dd></div>
+            <div><dt>Skin Concern</dt><dd id="product-skin-concern"></dd></div>
+          </dl>
+
+          <div class="product-detail__ctas">
+            <a class="btn btn--primary btn--large" id="product-amazon-btn" href="#" target="_blank" rel="nofollow sponsored noopener">
+              Buy on Amazon <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </a>
+            <a class="btn btn--ghost btn--large" href="#my-review">Jump to review</a>
+          </div>
+
+          <section class="detail-section" id="my-review">
+            <h2 class="detail-section__title">My Review</h2>
+            <p id="product-review-text" style="color:var(--color-text-muted); line-height:1.7;"></p>
+          </section>
+
+          <section class="detail-section">
+            <h2 class="detail-section__title">Pros &amp; Cons</h2>
+            <div class="pros-cons">
+              <div class="pros">
+                <h4><i class="fa-solid fa-circle-check" style="color:var(--color-accent)" aria-hidden="true"></i> Pros</h4>
+                <ul id="product-pros"></ul>
+              </div>
+              <div class="cons">
+                <h4><i class="fa-solid fa-circle-minus" style="color:#B4791C" aria-hidden="true"></i> Cons</h4>
+                <ul id="product-cons"></ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="detail-section">
+            <h2 class="detail-section__title">Key Ingredients</h2>
+            <ul class="ingredient-list" id="product-ingredients"></ul>
+          </section>
+
+          <section class="detail-section">
+            <h2 class="detail-section__title">How To Use</h2>
+            <p id="product-how-to-use" style="color:var(--color-text-muted); line-height:1.7;"></p>
+          </section>
+
+          <section class="detail-section">
+            <h2 class="detail-section__title">Who It's For</h2>
+            <div class="who-grid">
+              <div class="who-card who-card--for">
+                <h4><i class="fa-solid fa-thumbs-up" aria-hidden="true"></i> Who Should Buy</h4>
+                <p id="product-who-for"></p>
+              </div>
+              <div class="who-card who-card--avoid">
+                <h4><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> Who Should Avoid</h4>
+                <p id="product-who-avoid"></p>
+              </div>
+            </div>
+          </section>
+
+          <section class="detail-section" id="faq-section">
+            <h2 class="detail-section__title">Frequently Asked Questions</h2>
+            <div id="product-faqs"></div>
+          </section>
+
+          <div class="product-detail__ctas" style="margin-top:36px;">
+            <a class="btn btn--primary btn--large btn--block" id="product-amazon-btn-2" href="#" target="_blank" rel="nofollow sponsored noopener">
+              Check price on Amazon <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-head__eyebrow">You might also like</span>
+          <h2 class="section-head__title">Related products</h2>
+        </div>
+        <div class="product-grid" id="related-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <a href="index.html" class="brand">
+            <span class="brand__mark"><i class="fa-solid fa-leaf" aria-hidden="true"></i></span>
+            <span class="brand__name">Pickify<span>Lab</span></span>
+          </a>
+          <p>Independent skincare reviews for the videos you actually watch. We test, compare, and tell you the truth — good or bad.</p>
+          <div class="social-row">
+            <a class="social-btn" data-social="instagram" href="https://instagram.com/pickifylab" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a class="social-btn" data-social="tiktok" href="https://tiktok.com/@pickifylab" target="_blank" rel="noopener" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            <a class="social-btn" data-social="youtube" href="https://youtube.com/@pickifylab" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a class="social-btn" data-social="facebook" href="https://facebook.com/pickifylab" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a class="social-btn" data-social="x" href="https://x.com/pickifylab" target="_blank" rel="noopener" aria-label="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="categories.html">Categories</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="categories.html?cat=Cleanser">Cleanser</a></li>
+            <li><a href="categories.html?cat=Moisturizer">Moisturizer</a></li>
+            <li><a href="categories.html?cat=Serum">Serum</a></li>
+            <li><a href="categories.html?cat=Sunscreen">Sunscreen</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="contact.html">Affiliate Disclosure</a></li>
+            <li><a href="contact.html">Privacy Policy</a></li>
+            <li><a href="contact.html">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer-disclosure" data-disclosure-text><strong>Affiliate disclosure:</strong> Pickify Lab is a participant in the Amazon Associates program. Some links on this site are affiliate links, meaning we may earn a small commission on qualifying purchases at no extra cost to you. This never influences which products we choose to review or how we rate them.</p>
+      <div class="footer-bottom">
+        <p>&copy; <span data-current-year></span> Pickify Lab. All rights reserved.</p>
+        <p>Business inquiries: <a href="mailto:hello@pickifylab.com" data-business-email>hello@pickifylab.com</a> &middot; <a href="admin.html">Admin</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="scroll-top" type="button" data-scroll-top aria-label="Scroll to top"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+
+  <script src="js/products.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
