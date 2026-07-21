@@ -1,22 +1,20 @@
 /* ==========================================================================
    Pickify Lab — Settings
-   Site-wide values the admin dashboard can edit: social links, the business
-   contact email, and the affiliate disclosure text. Same overlay pattern as
-   products.js — admin.html edits a working copy in localStorage which
-   previews live in that browser only.
+   Exported from the admin dashboard on 21/07/2026, 14:11:37.
+   Replace the deployed js/settings.js with this file and redeploy to
+   publish these changes to every visitor.
    ========================================================================== */
 
 const PICKIFY_SETTINGS = {
-  businessEmail: "hello@pickifylab.com",
-  social: {
-    instagram: "https://instagram.com/pickifylab",
-    tiktok: "https://tiktok.com/@pickifylab",
-    youtube: "https://youtube.com/@pickifylab",
-    facebook: "https://facebook.com/pickifylab",
-    x: "https://x.com/pickifylab"
+  "businessEmail": "pickifylab@gmail.com",
+  "social": {
+    "instagram": "https://instagram.com/pickifylab",
+    "tiktok": "https://tiktok.com/@pickifylab",
+    "youtube": "https://youtube.com/@pickifylab",
+    "facebook": "https://facebook.com/pickifylab",
+    "x": "https://x.com/pickifylab"
   },
-  disclosureText:
-    "Affiliate disclosure: Pickify Lab is a participant in the Amazon Associates program. Some links on this site are affiliate links, meaning we may earn a small commission on qualifying purchases at no extra cost to you. This never influences which products we choose to review or how we rate them — our opinions remain independent."
+  "disclosureText": "Pickify Lab is a participant in the Amazon Associates program. Some links on this site are affiliate links, meaning we may earn a small commission on qualifying purchases at no extra cost to you. This never influences which products we choose to review or how we rate them — our opinions remain independent."
 };
 
 if (typeof window !== "undefined") {
